@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ITER ROMANUM · 내 주머니 속 로마</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --stone:#EDE6D3;
+    --card:#FBF8F0;
+    --ink:#2A2118;
+    --ink-soft:#5B5142;
+    --purple:#4B1D3F;
+    --purple-deep:#341229;
+    --gold:#B8934A;
+    --gold-soft:#DCC58E;
+    --brick:#8B3A2B;
+    --line:#D8CDB2;
+    --radius:14px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--stone);
+    color:var(--ink);
+    font-family:'EB Garamond', serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    -webkit-font-smoothing:antialiased;
+  }
+  .phone{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:var(--stone);
+    position:relative;
+    overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(184,147,74,0.10), transparent 40%),
+      radial-gradient(circle at 90% 92%, rgba(75,29,63,0.08), transparent 45%);
+  }
+
+  /* ===== HEADER / ROAD PROGRESS ===== */
+  header{
+    padding:22px 20px 16px;
+    background:linear-gradient(180deg, var(--purple) 0%, var(--purple-deep) 100%);
+    color:var(--stone);
+    border-radius:0 0 22px 22px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.18);
+  }
+  .eyebrow{
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  h1.pagetitle{
+    font-family:'Cinzel', serif;
+    font-size:22px;
+    letter-spacing:1px;
+    margin-top:6px;
+    font-weight:600;
+  }
+  .subtitle{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    color:var(--gold-soft);
+    margin-top:2px;
+    opacity:0.85;
+  }
+
+  .via-track{
+    margin-top:18px;
+    position:relative;
+    padding:0 4px;
+  }
+  .via-line{
+    position:relative;
+    height:3px;
+    background:rgba(255,255,255,0.18);
+    border-radius:2px;
+    margin:0 6px;
+  }
+  .via-fill{
+    position:absolute;
+    left:0; top:0; height:100%;
+    background:linear-gradient(90deg, var(--gold-soft), var(--gold));
+    border-radius:2px;
+    transition:width .5s ease;
+    width:12.5%;
+  }
+  .milestones{
+    display:flex;
+    justify-content:space-between;
+    margin-top:-9px;
+  }
+  .milestone{
+    width:19px; height:19px;
+    border-radius:50%;
+    background:var(--purple-deep);
+    border:2px solid rgba(255,255,255,0.35);
+    font-family:'Inter', sans-serif;
+    font-size:9px;
+    font-weight:700;
+    color:rgba(255,255,255,0.55);
+    display:flex; align-items:center; justify-content:center;
+    transition:all .3s ease;
+  }
+  .milestone.done{
+    background:var(--gold);
+    border-color:var(--gold-soft);
+    color:var(--purple-deep);
+  }
+  .milestone.current{
+    background:var(--stone);
+    border-color:var(--gold);
+    color:var(--purple-deep);
+    transform:scale(1.15);
+    box-shadow:0 0 0 3px rgba(184,147,74,0.35);
+  }
+
+  .stat-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:16px;
+    font-family:'Inter', sans-serif;
+  }
+  .stat{
+    text-align:left;
+  }
+  .stat .num{
+    font-family:'Cinzel', serif;
+    font-size:17px;
+    color:var(--stone);
+  }
+  .stat .label{
+    font-size:10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    opacity:0.8;
+  }
+  .badge{
+    font-family:'Inter', sans-serif;
+    font-size:10px;
+    letter-spacing:1px;
+    background:rgba(184,147,74,0.18);
+    border:1px solid var(--gold);
+    color:var(--gold-soft);
+    padding:5px 10px;
+    border-radius:20px;
+    align-self:center;
+  }
+
+  /* ===== CARD ===== */
+  main{
+    padding:20px 18px 40px;
+  }
+  .card{
+    display:none;
+    animation:fadeIn .35s ease;
+  }
+  .card.active{ display:block; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+  .statio{
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--brick);
+    font-weight:600;
+  }
+  h2.title-kr{
+    font-family:'Cinzel', serif;
+    font-size:24px;
+    color:var(--purple);
+    margin-top:4px;
+    line-height:1.25;
+  }
+  .title-en{
+    font-family:'EB Garamond', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--ink-soft);
+    margin-top:2px;
+  }
+
+  .photo-slot{
+    margin-top:16px;
+    aspect-ratio: 4/3;
+    position:relative;
+    border-radius:var(--radius);
+    border:1.5px dashed var(--gold);
+    background:repeating-linear-gradient(135deg, rgba(184,147,74,0.06) 0 10px, rgba(184,147,74,0.02) 10px 20px);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+    gap:4px;
+    color:var(--ink-soft);
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    text-align:center;
+    padding:14px;
+  }
+  .photo-slot .icon{ font-size:26px; opacity:.55; }
+
+  .audio-bar{
+    margin-top:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:12px 14px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .play-btn{
+    width:34px; height:34px;
+    border-radius:50%;
+    background:var(--purple);
+    color:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+    font-size:13px;
+  }
+  .audio-meta{ font-family:'Inter', sans-serif; flex:1; }
+  .audio-meta .t{ font-size:12px; font-weight:600; color:var(--ink); }
+  .audio-meta .track{
+    margin-top:5px; height:4px; background:var(--line); border-radius:2px; position:relative;
+  }
+  .audio-meta .track span{
+    position:absolute; left:0; top:0; height:100%; width:0%; background:var(--brick); border-radius:2px;
+  }
+  .audio-lang{
+    font-family:'Inter', sans-serif;
+    font-size:9px; letter-spacing:.5px;
+    background:rgba(139,58,43,0.1); color:var(--brick);
+    padding:3px 7px; border-radius:8px;
+  }
+
+  .quick10{
+    margin-top:16px;
+    background:var(--purple);
+    color:var(--stone);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    position:relative;
+  }
+  .quick10::before{
+    content:"10초 만에 보기";
+    font-family:'Inter', sans-serif;
+    font-size:10px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--gold-soft);
+    display:block;
+    margin-bottom:6px;
+  }
+  .quick10 p{
+    font-family:'Cinzel', serif;
+    font-size:15px;
+    line-height:1.5;
+    font-weight:600;
+  }
+
+  .section{
+    margin-top:18px;
+  }
+  .section .h{
+    font-family:'Inter', sans-serif;
+    font-size:11px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    color:var(--brick);
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:8px;
+  }
+  .section .h::before{
+    content:"";
+    width:14px; height:2px;
+    background:var(--gold);
+    display:inline-block;
+  }
+  .section p{
+    font-size:16px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .en{
+    font-style:italic;
+    color:var(--ink-soft);
+    font-size:14px;
+    margin-top:6px;
+    line-height:1.55;
+    border-left:2px solid var(--gold);
+    padding-left:10px;
+  }
+
+  .behind{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--brick);
+    border-radius:0 var(--radius) var(--radius) 0;
+    padding:14px 16px;
+  }
+
+  .italian-tip{
+    margin-top:18px;
+    background:linear-gradient(135deg, #F4EBD8, #EDDFC0);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    border:1px solid var(--gold);
+  }
+  .italian-tip .h{ color:var(--purple); }
+  .italian-tip .h::before{ background:var(--purple); }
+  .italian-phrase{
+    font-family:'Cinzel', serif;
+    font-size:17px;
+    color:var(--purple);
+    margin-top:2px;
+  }
+  .italian-mean{
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    color:var(--ink-soft);
+    margin-top:3px;
+  }
+
+  .phototip{
+    margin-top:14px;
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+  }
+  .phototip .ic{ font-size:18px; margin-top:1px; }
+  .phototip p{ font-size:14px; line-height:1.55; color:var(--ink-soft); }
+
+  .quote-box{
+    margin-top:18px;
+    text-align:center;
+    padding:16px 10px;
+    position:relative;
+  }
+  .quote-box::before, .quote-box::after{
+    content:"❧";
+    color:var(--gold);
+    font-size:14px;
+    display:block;
+  }
+  .quote-box p{
+    font-family:'Cinzel', serif;
+    font-size:14px;
+    color:var(--purple);
+    margin:8px 0;
+    letter-spacing:.3px;
+  }
+
+  .next-preview{
+    margin-top:26px;
+    background:var(--purple-deep);
+    color:var(--stone);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .next-preview .lab{
+    font-family:'Inter', sans-serif;
+    font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--gold-soft); opacity:.8;
+  }
+  .next-preview .nm{
+    font-family:'Cinzel', serif;
+    font-size:16px;
+    margin-top:3px;
+  }
+  .next-preview .arrow{ color:var(--gold); font-size:20px; }
+
+  /* ===== NAV ===== */
+  .nav{
+    display:flex;
+    gap:10px;
+    margin-top:22px;
+  }
+  .nav button{
+    flex:1;
+    font-family:'Inter', sans-serif;
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:.5px;
+    padding:13px;
+    border-radius:var(--radius);
+    border:none;
+    cursor:pointer;
+  }
+  .btn-prev{
+    background:transparent;
+    border:1.5px solid var(--purple) !important;
+    color:var(--purple);
+  }
+  .btn-next{
+    background:var(--purple);
+    color:var(--stone);
+  }
+  .btn-next:disabled, .btn-prev:disabled{
+    opacity:0.35;
+    cursor:default;
+  }
+
+  .final-badge{
+    margin-top:20px;
+    text-align:center;
+    padding:20px;
+    background:var(--card);
+    border:1.5px solid var(--gold);
+    border-radius:var(--radius);
+  }
+  .final-badge .crest{ font-size:30px; }
+  .final-badge h3{
+    font-family:'Cinzel', serif;
+    color:var(--purple);
+    font-size:17px;
+    margin-top:8px;
+  }
+  .final-badge p{
+    font-family:'Inter', sans-serif;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:6px;
+    line-height:1.5;
+  }
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <header>
+    <div class="eyebrow">
+      <span>ITER ROMANUM</span>
+      <span class="badge" id="badgeText">STATIO 1 / 8</span>
+    </div>
+    <h1 class="pagetitle">내 주머니 속 로마</h1>
+    <div class="subtitle">이터 로마눔 · 로마로 가는 하루의 여정</div>
+
+    <div class="via-track">
+      <div class="via-line"><div class="via-fill" id="viaFill"></div></div>
+      <div class="milestones" id="milestones"></div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="num" id="distNum">0.0 km</div>
+        <div class="label">도보 이동거리 (예상)</div>
+      </div>
+      <div class="stat" style="text-align:right">
+        <div class="num" id="stopNum">성 베드로 대성당</div>
+        <div class="label">현재 스팟</div>
+      </div>
+    </div>
+  </header>
+
+  <main id="cardWrap"></main>
+
+  <div style="padding:0 18px 30px">
+    <div class="nav">
+      <button class="btn-prev" id="prevBtn">← 이전</button>
+      <button class="btn-next" id="nextBtn">다음 →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const stops = [
+  {
+    img:"img/rome-01-st-peters-basilica.jpg",
+    mapsQuery:"St. Peter's Basilica, Vatican City",
+    statio:"STATIO I · 정류장① 바티칸",
+    titleKr:"성 베드로 대성당",
+    titleEn:"St. Peter's Basilica",
+    dist:0.0,
+    quick:"세계에서 가장 큰 성당, 어부였던 한 사람의 무덤 위에 서다",
+    overviewKr:"성 베드로 대성당은 예수의 제자였던 어부 베드로가 순교 후 묻힌 자리 위에 세워졌다고 전해져요. 지금 건물은 1506년부터 120년 넘게 걸려 완성되었고, 브라만테, 미켈란젤로, 베르니니 같은 당대 최고의 예술가들이 차례로 참여했어요.",
+    overviewEn:"St. Peter's Basilica is believed to stand directly above the tomb of Peter, the fisherman who became one of Jesus's twelve apostles. Construction took over 120 years, passing through the hands of history's greatest architects — Bramante, Michelangelo, and Bernini.",
+    behindKr:"성당 안 거대한 청동 발다키노(제단 덮개)는 사실 판테온 지붕에서 뜯어온 청동으로 만들어졌어요. 당시 로마 사람들은 이걸 두고 &ldquo;야만족도 안 한 짓을, 바르베리니 가문(교황 우르바노 8세)이 했다&rdquo;고 비꼬는 말을 만들어냈대요.",
+    behindEn:"The massive bronze canopy inside, the Baldacchino, was partly cast from bronze stripped off the Pantheon's roof — ordered by Pope Urban VIII of the Barberini family. Romans coined a bitter pun: &ldquo;What the barbarians didn't do, the Barberini did.&rdquo;",
+    italianPhrase:"Dov'è l'entrata?",
+    italianMean:"입구가 어디예요? (Where's the entrance?)",
+    photoTip:"광장 중앙, 베르니니 회랑의 원반석(disco) 위에 서보세요. 네 줄로 늘어선 기둥이 한 줄로 겹쳐 보이는 착시가 생겨요. 아이와 함께 찾아보면 재밌어요.",
+    audioLabel:"오디오 가이드 · 성 베드로 대성당 (EN)",
+    artworks:[
+      {
+        nameKr:"피에타 (미켈란젤로, 1499)",
+        nameEn:"Pietà — Michelangelo, 1499",
+        where:"입구 들어가서 오른쪽 첫 번째 경당",
+        descKr:"숨을 거둔 예수를 안고 있는 성모 마리아. 미켈란젤로가 25살에 완성했고, 그가 서명을 남긴 유일한 작품이에요. 대리석 한 덩어리로 옷 주름까지 살아있는 듯 조각했어요.",
+        descEn:"The Virgin Mary holding the dead Christ. Michelangelo finished it at just 25 — and it's the only work he ever signed. Carved from a single marble block, even the fabric folds look alive."
+      },
+      {
+        nameKr:"발다키노 (베르니니, 1624~1633)",
+        nameEn:"The Baldacchino — Bernini, 1624–1633",
+        where:"중앙 제단, 돔 바로 아래",
+        descKr:"성 베드로의 무덤 바로 위에 놓인 29m 높이의 청동 캐노피. 나선형으로 꼬인 네 기둥이 하늘로 뻗어 있어요. 판테온 지붕 청동으로 만들었다는 이야기는 STATIO I '몰랐던 이야기'에서 이미 만났죠.",
+        descEn:"A 29-meter bronze canopy standing directly above St. Peter's tomb, its four spiral columns twisting upward. Partly cast from Pantheon bronze, as told in this stop's Behind the Marble story."
+      },
+      {
+        nameKr:"성 베드로 청동상 (13세기)",
+        nameEn:"Bronze Statue of St. Peter, 13th century",
+        where:"중앙 통로 오른쪽 기둥 옆",
+        descKr:"한 손엔 천국의 열쇠, 한 손엔 축복. 수백 년간 순례자들이 만지고 입 맞춘 오른발이 반질반질 닳아 발가락 윤곽이 흐려질 정도예요.",
+        descEn:"One hand holds the keys to heaven, the other gives a blessing. Centuries of pilgrims touching and kissing the right foot have worn it smooth, blurring the toes entirely."
+      },
+      {
+        nameKr:"베드로좌 (베르니니, 1666)",
+        nameEn:"Cathedra Petri (Chair of St. Peter) — Bernini, 1666",
+        where:"성당 가장 안쪽, 후진(apse)",
+        descKr:"거대한 청동 옥좌를 네 명의 성인이 떠받치고, 그 위 황금빛 창에는 성령을 상징하는 비둘기가 있어요. 창으로 들어오는 자연광과 어우러져서 마치 옥좌가 빛나는 것처럼 보여요.",
+        descEn:"A massive bronze throne held aloft by four saints, crowned by a golden window with the dove of the Holy Spirit. Natural light pours through it, making the throne appear to glow from within."
+      }
+    ]
+  },
+  {
+    img:"img/rome-02-dome.jpg",
+    mapsQuery:"Dome of St. Peter's Basilica, Vatican City",
+    statio:"STATIO II · 정류장① 바티칸",
+    titleKr:"성 베드로 돔",
+    titleEn:"The Dome of St. Peter's",
+    dist:0.0,
+    quick:"미켈란젤로가 설계했지만, 정작 그는 완성을 보지 못했다",
+    overviewKr:"돔은 미켈란젤로가 설계했지만 완공 전에 세상을 떠났고, 후배 건축가 자코모 델라 포르타가 원래 도면보다 더 뾰족하고 높게 바꿔 완성했어요. 높이 136m로 지금도 세계에서 가장 높은 돔이에요.",
+    overviewEn:"Michelangelo designed the dome but died before it was finished. His successor, Giacomo della Porta, completed it taller and steeper than the original plan. At 136 meters, it remains the tallest dome in the world.",
+    behindKr:"엘리베이터로 테라스까지 오른 뒤, 거기서부터는 두 겹으로 된 돔 사이의 좁은 틈을 따라 320개 계단을 걸어요. 위로 갈수록 벽이 안쪽으로 기울어서, 나중엔 몸을 옆으로 기울이며 걸어야 할 만큼 좁아져요.",
+    behindEn:"After the elevator to the terrace, the remaining 320 steps wind through the narrow gap between the dome's two shells. The walls lean inward as you climb, until the passage is so tight you have to walk sideways.",
+    italianPhrase:"Quanti gradini mancano?",
+    italianMean:"계단이 얼마나 남았어요? (How many steps left?)",
+    photoTip:"꼭대기에서는 성 베드로 광장의 타원형과 베르니니 회랑 기둥이 한눈에 내려다보여요. 정오 무렵엔 광장 위 그림자까지 선명하게 잡혀요.",
+    audioLabel:"오디오 가이드 · 돔 등반 (EN)"
+  },
+  {
+    img:"img/rome-03-castel-sant-angelo.jpg",
+    mapsQuery:"Castel Sant'Angelo, Rome",
+    statio:"STATIO III · 정류장① 바티칸",
+    titleKr:"천사의 성",
+    titleEn:"Castel Sant'Angelo",
+    dist:0.8,
+    quick:"황제의 무덤에서, 교황의 도망 통로가 된 성",
+    overviewKr:"원래 이 건물은 138년, 로마 황제 하드리아누스가 자기 자신을 위해 지은 무덤이었어요. 나중에 교황들이 이걸 요새로 개조했고, 바티칸까지 몰래 이어지는 비밀 통로 &lsquo;파세토&rsquo;까지 만들었어요.",
+    overviewEn:"This building began in 138 CE as Emperor Hadrian's own mausoleum. Centuries later, popes converted it into a fortress and even built a secret elevated passage, the Passetto, connecting it straight to the Vatican.",
+    behindKr:"이름이 &lsquo;천사의 성&rsquo;이 된 건, 590년 로마에 전염병이 돌 때 교황 그레고리오가 이 건물 꼭대기에서 칼을 칼집에 넣는 대천사 미카엘의 환영을 봤고, 그 직후 전염병이 멈췄다는 전설 때문이에요. 지금도 꼭대기엔 그 천사 동상이 서 있어요.",
+    behindEn:"The name comes from a legend: during a 590 CE plague, Pope Gregory saw a vision of the Archangel Michael sheathing his sword atop the building — and the plague ended soon after. A statue of that angel still stands on the roof today.",
+    italianPhrase:"Che bella vista!",
+    italianMean:"전망이 정말 아름답네요! (What a beautiful view!)",
+    photoTip:"다리(폰테 산탄젤로) 위 열두 천사 조각상과, 강 건너 성 베드로 돔이 함께 겹쳐 보이는 각도가 최고의 사진 포인트예요.",
+    audioLabel:"오디오 가이드 · 천사의 성 (EN)"
+  },
+  {
+    img:"img/rome-04-trevi-fountain.jpg",
+    mapsQuery:"Trevi Fountain, Rome",
+    statio:"STATIO IV · 정류장② 시내",
+    titleKr:"트레비 분수",
+    titleEn:"Trevi Fountain",
+    dist:0.9,
+    quick:"동전 하나로 로마와 약속을 하다",
+    overviewKr:"지금 분수의 물은 기원전 19년, 로마 장군 아그리파가 만든 수도교 &lsquo;아쿠아 비르고&rsquo;에서 흘러와요. 2000년이 넘도록 같은 수원에서 물이 오고 있어요.",
+    overviewEn:"The water still flowing from this fountain travels down the Aqua Virgo aqueduct, built in 19 BCE by the Roman general Agrippa. It's been running from the same source for over two thousand years.",
+    behindKr:"동전 한 개를 등지고 던지면 로마에 다시 온다, 두 개면 새로운 사랑이 생긴다, 세 개면 결혼한다는 전설이 있어요. 매일 걷어가는 동전은 약 3,000유로 정도인데, 전부 로마의 빈곤층을 돕는 자선단체(카리타스)에 기부돼요.",
+    behindEn:"Toss one coin over your shoulder to return to Rome, two for new romance, three for marriage. About 3,000 euros are collected daily — and every cent goes to Caritas, a charity that helps Rome's poor.",
+    italianPhrase:"Una moneta, per favore!",
+    italianMean:"동전 하나만요! (동전 던지며 장난스럽게)",
+    photoTip:"이른 아침이나 늦은 저녁에 가면 사람이 적어서 분수 전체가 나오는 사진을 찍기 좋아요.",
+    audioLabel:"오디오 가이드 · 트레비 분수 (EN)"
+  },
+  {
+    img:"img/rome-05-pantheon.jpg",
+    mapsQuery:"Pantheon, Rome",
+    statio:"STATIO V · 정류장② 시내",
+    titleKr:"판테온",
+    titleEn:"The Pantheon",
+    dist:1.3,
+    quick:"천장에 뚫린 구멍 하나가 2000년을 버틴 비밀",
+    overviewKr:"판테온의 돔은 지금도 세계에서 가장 큰 무철근 콘크리트 돔이에요. 꼭대기에 뚫린 둥근 구멍(오쿨루스)으로 하늘이 그대로 보이고, 비가 오면 빗물이 바닥으로 떨어져요.",
+    overviewEn:"The Pantheon's dome is still the largest unreinforced concrete dome in the world. The round opening at its center, the oculus, is open to the sky — when it rains, the rain falls straight through onto the floor.",
+    behindKr:"바닥은 완전히 평평해 보이지만 사실 가운데가 살짝 볼록해서, 빗물이 22개의 작은 배수구로 흘러 빠지도록 설계되어 있어요. 609년에 교회로 바뀐 덕분에, 다른 로마 신전들과 달리 부서지지 않고 지금까지 거의 원래 모습대로 남아있어요.",
+    behindEn:"The floor only looks flat — it actually curves slightly upward at the center, draining rain through 22 small holes. Converted into a church in 609 CE, it survived almost untouched while nearly every other Roman temple was destroyed.",
+    italianPhrase:"Guarda in alto!",
+    italianMean:"위를 봐! (Look up!)",
+    photoTip:"정오 무렵 오쿨루스 아래 서면, 빛이 만드는 동그란 빛기둥이 바닥이나 벽을 천천히 가로지르는 걸 볼 수 있어요.",
+    audioLabel:"오디오 가이드 · 판테온 (EN)"
+  },
+  {
+    img:"img/rome-06-piazza-navona.jpg",
+    mapsQuery:"Piazza Navona, Rome",
+    statio:"STATIO VI · 정류장② 시내",
+    titleKr:"나보나 광장",
+    titleEn:"Piazza Navona",
+    dist:1.8,
+    quick:"광장이 길쭉한 이유는, 원래 경기장이었기 때문",
+    overviewKr:"나보나 광장의 길쭉한 타원 모양은 1세기에 지어진 도미티아누스 황제의 경기장(스타디움) 자리 그대로예요. 로마 시민들이 달리기 경주를 보던 자리에, 지금은 카페와 분수가 있어요.",
+    overviewEn:"The elongated oval shape of Piazza Navona traces the exact outline of Emperor Domitian's 1st-century athletic stadium. Where Romans once watched footraces, cafes and fountains now stand.",
+    behindKr:"광장 중앙 &lsquo;4대강 분수&rsquo;(베르니니 작품)의 한 조각상이 맞은편 성당(보로미니 작품)을 손으로 가리며 &ldquo;저 성당은 못 봐주겠다&rdquo;는 라이벌 이야기가 유명해요. 그런데 사실 이 분수가 완성된 건 성당 완공보다 먼저라서, 시간상 있을 수 없는 전설이에요. 유명한 이야기일수록 사실이 아닐 수도 있다는 걸 보여주는 재밌는 예시죠.",
+    behindEn:"A famous legend says one of the statues on Bernini's Fountain of the Four Rivers covers its eyes from the church across the square, designed by his rival Borromini. But the fountain was actually finished before the church was — the story is chronologically impossible. Sometimes the most famous stories are the least true.",
+    italianPhrase:"È solo una leggenda.",
+    italianMean:"그건 그냥 전설이에요. (It's just a legend.)",
+    photoTip:"광장 양 끝의 둥근 부분에 서서 가운데 분수를 향해 찍으면, 옛 경기장의 타원형 트랙이 그대로 느껴져요.",
+    audioLabel:"오디오 가이드 · 나보나 광장 (EN)"
+  },
+  {
+    img:"img/rome-07-colosseum.jpg",
+    img2:"img/rome-07-colosseum-interior.jpg",
+    mapsQuery:"Colosseum, Rome",
+    statio:"STATIO VII · 정류장③ 콜로세움",
+    titleKr:"콜로세움",
+    titleEn:"The Colosseum",
+    dist:1.8,
+    quick:"황제의 개인 호수가 있던 자리에, 5만 명이 모이는 경기장이 서다",
+    overviewKr:"콜로세움은 79년, 폭군으로 유명했던 네로 황제가 죽은 뒤 그의 사치스러운 개인 궁전 정원의 인공호수를 메운 자리에 세워졌어요. 베스파시아누스 황제가 짓기 시작했고, 아들 티투스가 80년에 100일간의 축제로 개장했어요.",
+    overviewEn:"The Colosseum was built on the drained lake of Emperor Nero's private palace gardens, after his fall. Emperor Vespasian began construction, and his son Titus opened it in 80 CE with a hundred days of games.",
+    behindKr:"초기에는 경기장에 물을 채워 진짜 배를 띄우고 모의 해전(나우마키아)을 벌이기도 했어요. 나중에 바닥 아래 &lsquo;히포게움&rsquo;이라는 2층짜리 지하 통로가 만들어지면서 물을 채우는 건 불가능해졌지만, 대신 도르래와 밧줄로 작동하는 나무 승강기가 검투사와 사자, 호랑이를 갑자기 바닥 위로 솟아오르게 했어요. 검투사가 나오는 문은 &lsquo;생명의 문&rsquo;, 패배자가 실려나가는 문은 &lsquo;죽음의 문&rsquo;이라 불렸어요.",
+    behindEn:"In its earliest years, the arena could be flooded to stage mock naval battles with real ships. Once the two-story underground hypogeum was built beneath the floor, flooding became impossible — but rope-and-pulley wooden elevators could now make gladiators, lions, and tigers suddenly appear on the arena floor. Gladiators entered through the &ldquo;Gate of Life&rdquo; and the defeated left through the &ldquo;Gate of Death.&rdquo;",
+    italianPhrase:"Chi ha vinto?",
+    italianMean:"누가 이겼어요? (Who won?)",
+    photoTip:"외관만 볼 경우엔 옆에 있는 콘스탄티누스 개선문과 함께 담아보세요. 내부에 들어가면 관중석 계단과 지하 히포게움이 겹쳐 보이는 각도가 가장 극적이에요.",
+    audioLabel:"오디오 가이드 · 콜로세움 (EN)"
+  },
+  {
+    img:"img/rome-08-monti-dinner.jpg",
+    mapsQuery:"Rione Monti, Rome",
+    statio:"STATIO VIII · 저녁",
+    titleKr:"저녁 식사, 몬티",
+    titleEn:"Dinner in Monti",
+    dist:2.4,
+    quick:"관광객보다 로마 사람이 더 많이 앉아있는 동네",
+    overviewKr:"몬티는 콜로세움에서 도보 10분 거리에 있는, 로마에서 가장 오래된 동네 중 하나예요. 좁은 골목과 작은 광장, 오래된 상점들이 그대로 남아있어서 하루 종일 걸은 다리를 쉬며 저녁 먹기 좋아요.",
+    overviewEn:"Monti, a ten-minute walk from the Colosseum, is one of Rome's oldest neighborhoods. Narrow lanes, small squares, and old shopfronts make it a relaxed place to rest your legs and end a long day of walking.",
+    behindKr:"",
+    behindEn:"",
+    italianPhrase:"Il conto, per favore.",
+    italianMean:"계산서 주세요. (The bill, please.)",
+    photoTip:"낮보다 해질 무렵, 골목 사이로 가로등이 하나둘 켜질 때가 훨씬 예뻐요.",
+    audioLabel:"오디오 가이드 · 몬티 지구 (EN)"
+  }
+];
+
+let idx = 0;
+
+function renderMilestones(){
+  const wrap = document.getElementById('milestones');
+  wrap.innerHTML = '';
+  stops.forEach((s,i)=>{
+    const d = document.createElement('div');
+    d.className = 'milestone' + (i < idx ? ' done' : '') + (i === idx ? ' current' : '');
+    d.textContent = i+1;
+    wrap.appendChild(d);
+  });
+}
+
+function renderCard(){
+  const s = stops[idx];
+  const wrap = document.getElementById('cardWrap');
+  wrap.innerHTML = `
+    <div class="card active">
+      <div class="statio">${s.statio}</div>
+      <h2 class="title-kr">${s.titleKr}</h2>
+      <div class="title-en">${s.titleEn}</div>
+
+      <div class="photo-slot" id="photoSlot">
+        <img src="${s.img}" alt="${s.titleKr}"
+             style="width:100%;height:100%;object-fit:cover;border-radius:12px;position:absolute;inset:0;display:none;"
+             onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+             onerror="this.style.display='none';">
+        <div class="fallback-text" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div class="icon">🏛️</div>
+          <div>사진을 여기에 넣어주세요<br>${s.img}</div>
+        </div>
+      </div>
+
+      <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.mapsQuery)}" target="_blank" rel="noopener"
+         style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:8px;
+                font-family:'Inter',sans-serif;font-size:12px;font-weight:600;color:var(--purple);
+                text-decoration:none;border:1px solid var(--purple); border-radius:20px; padding:8px 14px;">
+        📍 구글 지도에서 보기
+      </a>
+
+      ${s.img2 ? `
+      <div class="photo-slot" style="margin-top:10px; aspect-ratio:16/10;">
+        <img src="${s.img2}" alt="${s.titleKr} 내부"
+             style="width:100%;height:100%;object-fit:cover;border-radius:12px;position:absolute;inset:0;display:none;"
+             onload="this.style.display='block'; this.nextElementSibling.style.display='none';"
+             onerror="this.style.display='none';">
+        <div class="fallback-text" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div class="icon">🏟️</div>
+          <div>내부 사진을 여기에 넣어주세요<br>${s.img2}</div>
+        </div>
+      </div>` : ''}
+
+      <div class="audio-bar">
+        <div class="play-btn">▶</div>
+        <div class="audio-meta">
+          <div class="t">${s.audioLabel}</div>
+          <div class="track"><span style="width:0%"></span></div>
+        </div>
+        <div class="audio-lang">EN</div>
+      </div>
+
+      <div class="quick10"><p>${s.quick}</p></div>
+
+      <div class="section">
+        <div class="h">간단히 알아보기</div>
+        <p>${s.overviewKr}</p>
+        <p class="en">${s.overviewEn}</p>
+      </div>
+
+      ${s.behindKr ? `
+      <div class="section">
+        <div class="h">몰랐던 이야기 · Behind the Marble</div>
+        <div class="behind">
+          <p>${s.behindKr}</p>
+          <p class="en">${s.behindEn}</p>
+        </div>
+      </div>` : ''}
+
+      ${s.artworks ? `
+      <div class="section">
+        <div class="h">꼭 봐야 할 작품</div>
+        ${s.artworks.map(a => `
+          <div class="behind" style="margin-bottom:10px;">
+            <div style="font-family:'Cinzel',serif; font-size:14px; color:var(--purple);">${a.nameKr}</div>
+            <div style="font-family:'Inter',sans-serif; font-size:10px; color:var(--brick); letter-spacing:.5px; margin-top:2px;">${a.where}</div>
+            <p style="margin-top:6px;">${a.descKr}</p>
+            <p class="en">${a.descEn}</p>
+          </div>
+        `).join('')}
+      </div>` : ''}
+
+      <div class="italian-tip">
+        <div class="h">이탈리아어 한마디</div>
+        <div class="italian-phrase">${s.italianPhrase}</div>
+        <div class="italian-mean">${s.italianMean}</div>
+      </div>
+
+      <div class="phototip">
+        <div class="ic">📷</div>
+        <p><strong>사진 팁.</strong> ${s.photoTip}</p>
+      </div>
+
+      ${idx < stops.length - 1 ? `
+      <div class="next-preview">
+        <div>
+          <div class="lab">다음 스타티오</div>
+          <div class="nm">${stops[idx+1].titleKr}</div>
+        </div>
+        <div class="arrow">→</div>
+      </div>` : `
+      <div class="final-badge">
+        <div class="crest">🏅</div>
+        <h3>Roma Explorata</h3>
+        <p>바티칸에서 몬티까지, 하루 동안 로마의 8개 장소를 모두 돌았어요.</p>
+      </div>`}
+    </div>
+  `;
+
+  document.getElementById('badgeText').textContent = `STATIO ${idx+1} / ${stops.length}`;
+  document.getElementById('stopNum').textContent = s.titleKr;
+  document.getElementById('distNum').textContent = s.dist.toFixed(1) + ' km';
+  document.getElementById('viaFill').style.width = ((idx+1)/stops.length*100) + '%';
+  document.getElementById('prevBtn').disabled = idx === 0;
+  document.getElementById('nextBtn').disabled = idx === stops.length - 1;
+  document.getElementById('nextBtn').textContent = idx === stops.length - 1 ? '완료 ✓' : '다음 →';
+
+  renderMilestones();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('prevBtn').addEventListener('click', ()=>{
+  if(idx>0){ idx--; renderCard(); }
+});
+document.getElementById('nextBtn').addEventListener('click', ()=>{
+  if(idx<stops.length-1){ idx++; renderCard(); }
+});
+
+renderCard();
+</script>
+</body>
+</html>
