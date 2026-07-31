@@ -660,6 +660,7 @@ const stops = [
     img2:"rome-07-colosseum-interior.jpg",
     audioEn2:"rome-07-colosseum-interior2.mp3",
     audioKo2:"rome-07-colosseum-interior-ko.mp3",
+    videoKo2:"rome-07-colosseum-interior-ko.mp4",
     mapsQuery:"Colosseum, Rome",
     statio:"STATIO VII · 정류장③ 콜로세움",
     titleKr:"콜로세움",
@@ -823,6 +824,17 @@ function renderCard(){
             <div>우리말 영상을 여기에 넣어주세요<br>${s.videoKo}</div>
           </div>
         </div>
+        ${s.videoKo2 ? `
+        <div class="photo-slot" style="aspect-ratio:16/9; margin-top:10px;">
+          <video id="vid2_${idx}" src="${s.videoKo2}" controls playsinline preload="none"
+                 style="width:100%;height:100%;object-fit:cover;border-radius:12px;position:absolute;inset:0;display:none;"
+                 onloadeddata="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                 onerror="this.style.display='none';"></video>
+          <div class="fallback-text" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div class="icon">🎬</div>
+            <div>내부 영상을 여기에 넣어주세요<br>${s.videoKo2}</div>
+          </div>
+        </div>` : ''}
       </div>` : ''}
 
       <div class="quick10"><p>${s.quick}</p></div>
