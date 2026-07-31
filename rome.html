@@ -453,6 +453,13 @@
     <h1 class="pagetitle">내 주머니 속 로마</h1>
     <div class="subtitle">이터 로마눔 · 로마로 가는 하루의 여정</div>
 
+    <button id="langToggle" onclick="toggleLang()"
+      style="margin-top:12px; font-family:'Inter',sans-serif; font-size:11px; font-weight:600; letter-spacing:.5px;
+             background:rgba(184,147,74,0.15); border:1px solid var(--gold); color:var(--gold-soft);
+             padding:7px 12px; border-radius:20px; cursor:pointer;">
+      🇰🇷 한국어 음성·영상으로 보기
+    </button>
+
     <div class="via-track">
       <div class="via-line"><div class="via-fill" id="viaFill"></div></div>
       <div class="milestones" id="milestones"></div>
@@ -485,6 +492,9 @@
 const stops = [
   {
     img:"rome-01-st-peters-basilica.jpg",
+    audioEn:"rome-01-st-peters-basilica.mp3",
+    audioKo:"rome-01-st-peters-basilica-ko.mp3",
+    videoKo:"rome-01-st-peters-basilica-ko.mp4",
     mapsQuery:"St. Peter's Basilica, Vatican City",
     statio:"STATIO I · 정류장① 바티칸",
     titleKr:"성 베드로 대성당",
@@ -502,6 +512,7 @@ const stops = [
     artworks:[
       {
         nameKr:"피에타 (미켈란젤로, 1499)",
+        audioKo:"rome-01-artwork-pieta-ko.mp3",
         nameEn:"Pietà — Michelangelo, 1499",
         where:"입구 들어가서 오른쪽 첫 번째 경당",
         descKr:"숨을 거둔 예수를 안고 있는 성모 마리아. 미켈란젤로가 25살에 완성했고, 그가 서명을 남긴 유일한 작품이에요. 대리석 한 덩어리로 옷 주름까지 살아있는 듯 조각했어요.",
@@ -509,6 +520,7 @@ const stops = [
       },
       {
         nameKr:"발다키노 (베르니니, 1624~1633)",
+        audioKo:"rome-01-artwork-baldacchino-ko.mp3",
         nameEn:"The Baldacchino — Bernini, 1624–1633",
         where:"중앙 제단, 돔 바로 아래",
         descKr:"성 베드로의 무덤 바로 위에 놓인 29m 높이의 청동 캐노피. 나선형으로 꼬인 네 기둥이 하늘로 뻗어 있어요. 판테온 지붕 청동으로 만들었다는 이야기는 STATIO I '몰랐던 이야기'에서 이미 만났죠.",
@@ -516,6 +528,7 @@ const stops = [
       },
       {
         nameKr:"성 베드로 청동상 (13세기)",
+        audioKo:"rome-01-artwork-bronze-statue-ko.mp3",
         nameEn:"Bronze Statue of St. Peter, 13th century",
         where:"중앙 통로 오른쪽 기둥 옆",
         descKr:"한 손엔 천국의 열쇠, 한 손엔 축복. 수백 년간 순례자들이 만지고 입 맞춘 오른발이 반질반질 닳아 발가락 윤곽이 흐려질 정도예요.",
@@ -523,6 +536,7 @@ const stops = [
       },
       {
         nameKr:"베드로좌 (베르니니, 1666)",
+        audioKo:"rome-01-artwork-cathedra-ko.mp3",
         nameEn:"Cathedra Petri (Chair of St. Peter) — Bernini, 1666",
         where:"성당 가장 안쪽, 후진(apse)",
         descKr:"거대한 청동 옥좌를 네 명의 성인이 떠받치고, 그 위 황금빛 창에는 성령을 상징하는 비둘기가 있어요. 창으로 들어오는 자연광과 어우러져서 마치 옥좌가 빛나는 것처럼 보여요.",
@@ -532,6 +546,9 @@ const stops = [
   },
   {
     img:"rome-02-dome.jpg",
+    audioEn:"rome-02-dome.mp3",
+    audioKo:"rome-02-dome-ko.mp3",
+    videoKo:"rome-02-dome-ko.mp4",
     mapsQuery:"Dome of St. Peter's Basilica, Vatican City",
     statio:"STATIO II · 정류장① 바티칸",
     titleKr:"성 베드로 돔",
@@ -542,6 +559,7 @@ const stops = [
     overviewEn:"Michelangelo designed the dome but died before it was finished. His successor, Giacomo della Porta, completed it taller and steeper than the original plan. At 136 meters, it remains the tallest dome in the world.",
     behindKr:"엘리베이터로 테라스까지 오른 뒤, 거기서부터는 두 겹으로 된 돔 사이의 좁은 틈을 따라 320개 계단을 걸어요. 위로 갈수록 벽이 안쪽으로 기울어서, 나중엔 몸을 옆으로 기울이며 걸어야 할 만큼 좁아져요.",
     behindEn:"After the elevator to the terrace, the remaining 320 steps wind through the narrow gap between the dome's two shells. The walls lean inward as you climb, until the passage is so tight you have to walk sideways.",
+    behindAudioKo:"rome-02-behind-ko.mp3",
     italianPhrase:"Quanti gradini mancano?",
     italianMean:"계단이 얼마나 남았어요? (How many steps left?)",
     photoTip:"꼭대기에서는 성 베드로 광장의 타원형과 베르니니 회랑 기둥이 한눈에 내려다보여요. 정오 무렵엔 광장 위 그림자까지 선명하게 잡혀요.",
@@ -549,6 +567,9 @@ const stops = [
   },
   {
     img:"rome-03-castel-sant-angelo.jpg",
+    audioEn:"rome-03-castel-sant-angelo.mp3",
+    audioKo:"rome-03-castel-sant-angelo-ko.mp3",
+    videoKo:"rome-03-castel-sant-angelo-ko.mp4",
     mapsQuery:"Castel Sant'Angelo, Rome",
     statio:"STATIO III · 정류장① 바티칸",
     titleKr:"천사의 성",
@@ -566,6 +587,9 @@ const stops = [
   },
   {
     img:"rome-04-trevi-fountain.jpg",
+    audioEn:"rome-04-trevi-fountain.mp3",
+    audioKo:"rome-04-trevi-fountain-ko.mp3",
+    videoKo:"rome-04-trevi-fountain-ko.mp4",
     mapsQuery:"Trevi Fountain, Rome",
     statio:"STATIO IV · 정류장② 시내",
     titleKr:"트레비 분수",
@@ -583,6 +607,9 @@ const stops = [
   },
   {
     img:"rome-05-pantheon.jpg",
+    audioEn:"rome-05-pantheon.mp3",
+    audioKo:"rome-05-pantheon-ko.mp3",
+    videoKo:"rome-05-pantheon-ko.mp4",
     mapsQuery:"Pantheon, Rome",
     statio:"STATIO V · 정류장② 시내",
     titleKr:"판테온",
@@ -600,6 +627,9 @@ const stops = [
   },
   {
     img:"rome-06-piazza-navona.jpg",
+    audioEn:"rome-06-piazza-navona.mp3",
+    audioKo:"rome-06-piazza-navona-ko.mp3",
+    videoKo:"rome-06-piazza-navona-ko.mp4",
     mapsQuery:"Piazza Navona, Rome",
     statio:"STATIO VI · 정류장② 시내",
     titleKr:"나보나 광장",
@@ -617,7 +647,12 @@ const stops = [
   },
   {
     img:"rome-07-colosseum.jpg",
+    audioEn:"rome-07-colosseum.mp3",
+    audioKo:"rome-07-colosseum-ko.mp3",
+    videoKo:"rome-07-colosseum-ko.mp4",
     img2:"rome-07-colosseum-interior.jpg",
+    audioEn2:"rome-07-colosseum-interior2.mp3",
+    audioKo2:"rome-07-colosseum-interior-ko.mp3",
     mapsQuery:"Colosseum, Rome",
     statio:"STATIO VII · 정류장③ 콜로세움",
     titleKr:"콜로세움",
@@ -635,6 +670,9 @@ const stops = [
   },
   {
     img:"rome-08-monti-dinner.jpg",
+    audioEn:"rome-08-monti-dinner.mp3",
+    audioKo:"rome-08-monti-dinner-ko.mp3",
+    videoKo:"rome-08-monti-dinner-ko.mp4",
     mapsQuery:"Rione Monti, Rome",
     statio:"STATIO VIII · 저녁",
     titleKr:"저녁 식사, 몬티",
@@ -653,6 +691,64 @@ const stops = [
 ];
 
 let idx = 0;
+let lang = 'en';
+
+function toggleLang(){
+  lang = lang === 'en' ? 'ko' : 'en';
+  document.getElementById('langToggle').textContent =
+    lang === 'en' ? '🇰🇷 한국어 음성·영상으로 보기' : '🇬🇧 영어(English)로 보기';
+  renderCard();
+}
+
+function audioBlockHTML(s, suffix, label){
+  const enFile = suffix === '2' ? s.audioEn2 : s.audioEn;
+  const koFile = suffix === '2' ? s.audioKo2 : s.audioKo;
+  const src = lang === 'ko' ? koFile : enFile;
+  const id = 'audio_' + idx + '_' + suffix;
+  return `
+    <div class="audio-bar" id="${id}_row">
+      <div class="play-btn" id="${id}_btn" onclick="toggleAudio('${id}')">▶</div>
+      <div class="audio-meta">
+        <div class="t">오디오 가이드 · ${label} (${lang==='ko' ? '한국어' : 'EN'})</div>
+        <div class="track"><span id="${id}_bar" style="width:0%"></span></div>
+      </div>
+      <div class="audio-lang">${lang==='ko' ? 'KO' : 'EN'}</div>
+      <audio id="${id}" src="${src}" preload="none" style="display:none"
+             onplay="onAudioPlay('${id}')" onpause="onAudioPauseEnd('${id}')" onended="onAudioPauseEnd('${id}')"
+             ontimeupdate="onAudioTime('${id}')" onerror="onAudioError('${id}')"></audio>
+    </div>
+  `;
+}
+
+function miniAudioHTML(src, id, label){
+  if(!src) return '';
+  return `
+    <div id="${id}_row" style="display:flex; align-items:center; gap:8px; margin-top:8px;">
+      <div class="play-btn" id="${id}_btn" onclick="toggleAudio('${id}')" style="width:26px;height:26px;font-size:10px;">▶</div>
+      <div style="font-family:'Inter',sans-serif; font-size:11px; color:var(--brick);">${label}</div>
+      <audio id="${id}" src="${src}" preload="none" style="display:none"
+             onplay="onAudioPlay('${id}')" onpause="onAudioPauseEnd('${id}')" onended="onAudioPauseEnd('${id}')"
+             onerror="onAudioError('${id}')"></audio>
+    </div>
+  `;
+}
+
+function toggleAudio(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  document.querySelectorAll('audio').forEach(a=>{ if(a.id !== id && !a.paused){ a.pause(); } });
+  if(el.paused){ el.play().catch(()=>{}); } else { el.pause(); }
+}
+function onAudioPlay(id){ const b = document.getElementById(id+'_btn'); if(b) b.textContent = '⏸'; }
+function onAudioPauseEnd(id){ const b = document.getElementById(id+'_btn'); if(b) b.textContent = '▶'; }
+function onAudioTime(id){
+  const el = document.getElementById(id), bar = document.getElementById(id+'_bar');
+  if(el && bar && el.duration){ bar.style.width = (el.currentTime/el.duration*100) + '%'; }
+}
+function onAudioError(id){
+  const row = document.getElementById(id+'_row');
+  if(row) row.innerHTML = '<div style="font-family:\'Inter\',sans-serif;font-size:12px;color:var(--ink-soft);padding:8px 2px;">🔇 아직 이 언어의 음성 파일이 없어요</div>';
+}
 
 function renderMilestones(){
   const wrap = document.getElementById('milestones');
@@ -704,14 +800,23 @@ function renderCard(){
         </div>
       </div>` : ''}
 
-      <div class="audio-bar">
-        <div class="play-btn">▶</div>
-        <div class="audio-meta">
-          <div class="t">${s.audioLabel}</div>
-          <div class="track"><span style="width:0%"></span></div>
+      ${audioBlockHTML(s, '', s.titleKr)}
+      ${s.img2 ? audioBlockHTML(s, '2', s.titleKr + ' 내부') : ''}
+
+      ${lang==='ko' ? `
+      <div class="section">
+        <div class="h">우리말 영상</div>
+        <div class="photo-slot" style="aspect-ratio:16/9;">
+          <video id="vid_${idx}" src="${s.videoKo}" controls playsinline preload="none"
+                 style="width:100%;height:100%;object-fit:cover;border-radius:12px;position:absolute;inset:0;display:none;"
+                 onloadeddata="this.style.display='block'; this.nextElementSibling.style.display='none';"
+                 onerror="this.style.display='none';"></video>
+          <div class="fallback-text" style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div class="icon">🎬</div>
+            <div>우리말 영상을 여기에 넣어주세요<br>${s.videoKo}</div>
+          </div>
         </div>
-        <div class="audio-lang">EN</div>
-      </div>
+      </div>` : ''}
 
       <div class="quick10"><p>${s.quick}</p></div>
 
@@ -727,18 +832,20 @@ function renderCard(){
         <div class="behind">
           <p>${s.behindKr}</p>
           <p class="en">${s.behindEn}</p>
+          ${lang==='ko' ? miniAudioHTML(s.behindAudioKo, 'behind_'+idx, '🔊 한국어 음성') : ''}
         </div>
       </div>` : ''}
 
       ${s.artworks ? `
       <div class="section">
         <div class="h">꼭 봐야 할 작품</div>
-        ${s.artworks.map(a => `
+        ${s.artworks.map((a,i) => `
           <div class="behind" style="margin-bottom:10px;">
             <div style="font-family:'Cinzel',serif; font-size:14px; color:var(--purple);">${a.nameKr}</div>
             <div style="font-family:'Inter',sans-serif; font-size:10px; color:var(--brick); letter-spacing:.5px; margin-top:2px;">${a.where}</div>
             <p style="margin-top:6px;">${a.descKr}</p>
             <p class="en">${a.descEn}</p>
+            ${lang==='ko' ? miniAudioHTML(a.audioKo, 'art_'+idx+'_'+i, '🔊 한국어 음성') : ''}
           </div>
         `).join('')}
       </div>` : ''}
